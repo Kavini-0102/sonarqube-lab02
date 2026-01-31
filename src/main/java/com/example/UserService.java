@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class UserService {
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
@@ -19,7 +20,8 @@ public class UserService {
                  "SELECT * FROM users WHERE name = '" + username + "'")) {
             
             while (rs.next()) {
-                logger.info(() -> "User found: " + rs.getString("name"));
+                String name = rs.getString("name");
+                logger.log(Level.INFO, "User found: {0}", name);
             }
         }
     }
@@ -33,4 +35,5 @@ public class UserService {
             st.execute(query);
         }
     }
+
 }
