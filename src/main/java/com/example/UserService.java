@@ -2,6 +2,8 @@ package main.java.com.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserService {
@@ -18,14 +20,14 @@ public class UserService {
              "SELECT * FROM users WHERE name = '" + username + "'")) {
         
         while (rs.next()) {
-            logger.info(rs.getString("name"));
+            System.out.println(rs.getString("name"));
         }
     }
 }
 
     // SMELL: Unused method
     public void notUsed() {
-        logger.info("I am never called");
+        System.out.println("I am never called");
     }
     // FIXED: Using try-with-resources and specific exceptions
     public void deleteUser(String username) throws SQLException {
