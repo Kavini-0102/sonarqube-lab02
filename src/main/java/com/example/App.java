@@ -6,7 +6,7 @@ public class App {
     
     public static void main(String[] args) throws Exception {
         Calculator calc = new Calculator();
-        logger.info("Result: " + calc.calculate(10, 5, "add-again"));
+        logger.info(() -> "Result: " + calc.calculate(10, 5, "add-again"));
         
         UserService service = new UserService();
         service.findUser("admin");
