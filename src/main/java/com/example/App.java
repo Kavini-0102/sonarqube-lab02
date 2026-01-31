@@ -1,7 +1,4 @@
 package main.java.com.example;
-
-public class App {
-
 import java.util.logging.Logger;
 
 public class App {
@@ -16,5 +13,5 @@ public class App {
         service.deleteUser("admin");
     }
 }
-}
+
 
