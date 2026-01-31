@@ -1,5 +1,4 @@
-package main.java.com.example;
-
+package com.example;  
 public class Calculator {
 
     public int calculate(int a, int b, String op) {
