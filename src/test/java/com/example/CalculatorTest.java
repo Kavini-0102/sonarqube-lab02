@@ -1,164 +1,130 @@
+java
 package com.example;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 class CalculatorTest {
-
-    @Test
-    void testAdd() {
-        Calculator calc = new Calculator();
-        assertEquals(15, calc.calculate(10, 5, "add"));
-        assertEquals(0, calc.calculate(0, 0, "add"));
-        assertEquals(-5, calc.calculate(-10, 5, "add"));
+    
+    private Calculator calculator;
+    
+    @BeforeEach
+    void setUp() {
+        calculator = new Calculator();
     }
-
-    @Test
-    void testAddAgain() {
-        Calculator calc = new Calculator();
-        assertEquals(15, calc.calculate(10, 5, "add-again"));
-        assertEquals(100, calc.calculate(50, 50, "add-again"));
+    
+    @ParameterizedTest
+    @CsvSource({
+        "10, 5, ADD, 15",
+        "10, 5, SUBTRACT, 5",
+        "10, 5, MULTIPLY, 50",
+        "10, 5, DIVIDE, 2",
+        "10, 3, MODULUS, 1",
+        "2, 3, POWER, 8",
+        "0, 5, ADD, 5",
+        "-10, 5, ADD, -5"
+    })
+    void testCalculateWithEnum(int a, int b, Calculator.Operation op, int expected) {
+        assertEquals(expected, calculator.calculate(a, b, op));
     }
-
-    @Test
-    void testSub() {
-        Calculator calc = new Calculator();
-        assertEquals(5, calc.calculate(10, 5, "sub"));
-        assertEquals(0, calc.calculate(5, 5, "sub"));
-        assertEquals(-15, calc.calculate(-10, 5, "sub"));
+    
+    @ParameterizedTest
+    @CsvSource({
+        "10, 5, add, 15",
+        "10, 5, SUBTRACT, 5",
+        "10, 5, MuLtIpLy, 50",
+        "10, 5, divide, 2",
+        "10, 5, DIVIDE, 2",
+        "2, 3, power, 8"
+    })
+    void testCalculateWithString(int a, int b, String opStr, int expected) {
+        assertEquals(expected, calculator.calculate(a, b, opStr));
     }
-
+    
     @Test
-    void testSubAgain() {
-        Calculator calc = new Calculator();
-        assertEquals(5, calc.calculate(10, 5, "sub-again"));
-        assertEquals(0, calc.calculate(5, 5, "sub-again"));
+    void testCalculateDivisionByZeroThrowsException() {
+        Exception exception = assertThrows(ArithmeticException.class, () -> {
+            calculator.calculate(10, 0, Calculator.Operation.DIVIDE);
+        });
+        assertEquals("Division by zero is not allowed", exception.getMessage());
     }
-
+    
     @Test
-    void testMul() {
-        Calculator calc = new Calculator();
-        assertEquals(50, calc.calculate(10, 5, "mul"));
-        assertEquals(0, calc.calculate(0, 5, "mul"));
-        assertEquals(-50, calc.calculate(-10, 5, "mul"));
-    }
-
-    @Test
-    void testDivWhenBIsZero() {
-        Calculator calc = new Calculator();
-        assertEquals(0, calc.calculate(10, 0, "div"));
-        assertEquals(0, calc.calculate(100, 0, "div"));
-    }
-
-    @Test
-    void testDivWhenBIsNotZero() {
-        Calculator calc = new Calculator();
-        assertEquals(2, calc.calculate(10, 5, "div"));
-        assertEquals(5, calc.calculate(10, 2, "div"));
-        assertEquals(3, calc.calculate(9, 3, "div"));
-    }
-
-    @Test
-    void testMod() {
-        Calculator calc = new Calculator();
-        assertEquals(1, calc.calculate(10, 3, "mod"));
-        assertEquals(0, calc.calculate(10, 5, "mod"));
-        assertEquals(2, calc.calculate(7, 5, "mod"));
-    }
-
-    @Test
-    void testPowWithZeroExponent() {
-        Calculator calc = new Calculator();
-        assertEquals(1, calc.calculate(5, 0, "pow"));
-        assertEquals(1, calc.calculate(100, 0, "pow"));
-    }
-
-    @Test
-    void testPowWithOneIteration() {
-        Calculator calc = new Calculator();
-        assertEquals(5, calc.calculate(5, 1, "pow"));
-        assertEquals(10, calc.calculate(10, 1, "pow"));
-    }
-
-    @Test
-    void testPowWithMultipleIterations() {
-        Calculator calc = new Calculator();
-        assertEquals(8, calc.calculate(2, 3, "pow"));
-        assertEquals(16, calc.calculate(2, 4, "pow"));
-        assertEquals(32, calc.calculate(2, 5, "pow"));
-        assertEquals(100, calc.calculate(10, 2, "pow"));
-        assertEquals(27, calc.calculate(3, 3, "pow"));
-    }
-
-    @Test
-    void testInvalidOperation() {
-        Calculator calc = new Calculator();
-        assertEquals(0, calc.calculate(10, 5, "invalid"));
-        assertEquals(0, calc.calculate(10, 5, "xyz"));
-        assertEquals(0, calc.calculate(10, 5, ""));
-    }
-
-    @Test
-    void testAddNumbers() {
-        Calculator calc = new Calculator();
-        assertEquals(15, calc.addNumbers(10, 5));
-        assertEquals(0, calc.addNumbers(0, 0));
-        assertEquals(-5, calc.addNumbers(-10, 5));
-        assertEquals(100, calc.addNumbers(50, 50));
-    }
-
-    @Test
-    void testSumValues() {
-        Calculator calc = new Calculator();
-        assertEquals(15, calc.sumValues(10, 5));
-        assertEquals(0, calc.sumValues(0, 0));
-        assertEquals(-5, calc.sumValues(-10, 5));
-        assertEquals(100, calc.sumValues(50, 50));
-    }
-
-    @Test
-    void testAddAgainMethod() {
-        Calculator calc = new Calculator();
-        assertEquals(15, calc.addAgain(10, 5));
-        assertEquals(0, calc.addAgain(0, 0));
-        assertEquals(-5, calc.addAgain(-10, 5));
-        assertEquals(100, calc.addAgain(50, 50));
-    }
-
-    @Test
-    void testAllBranchesCovered() {
-        Calculator calc = new Calculator();
+    void testCalculateInvalidOperationEnum() {
+        // Create invalid operation (not in enum)
+        Calculator.Operation invalidOp = Calculator.Operation.valueOf("ADD"); // Valid
+        // We need to test with null or create a test-only invalid operation
         
-        // Ensure every if-else branch is executed
-        calc.calculate(1, 1, "add");
-        calc.calculate(1, 1, "add-again");
-        calc.calculate(1, 1, "sub");
-        calc.calculate(1, 1, "sub-again");
-        calc.calculate(1, 1, "mul");
-        calc.calculate(1, 0, "div"); // if (b == 0)
-        calc.calculate(1, 1, "div"); // else
-        calc.calculate(1, 1, "mod");
-        calc.calculate(1, 0, "pow"); // power with 0
-        calc.calculate(2, 5, "pow"); // power loop
-        calc.calculate(1, 1, "other"); // else branch
-        
-        // Verify at least one
-        assertEquals(2, calc.calculate(1, 1, "add"));
+        // Test with string instead
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.calculate(10, 5, "INVALID_OPERATION");
+        });
+        assertTrue(exception.getMessage().contains("Invalid operation string"));
     }
-
-    @Test
-    void testNegativeNumbers() {
-        Calculator calc = new Calculator();
-        assertEquals(-15, calc.calculate(-10, -5, "add"));
-        assertEquals(-5, calc.calculate(-10, -5, "sub"));
-        assertEquals(50, calc.calculate(-10, -5, "mul"));
-        assertEquals(2, calc.calculate(-10, -5, "div"));
+    
+    @ParameterizedTest
+    @ValueSource(strings = {"add", "SUBTRACT", "multiply", "DIVIDE", "modulus", "POWER"})
+    void testIsOperationSupportedWithValidOperations(String opStr) {
+        assertTrue(calculator.isOperationSupported(opStr));
     }
-
+    
+    @ParameterizedTest
+    @ValueSource(strings = {"", "invalid", "ADDITION", "subtraction", "test"})
+    void testIsOperationSupportedWithInvalidOperations(String opStr) {
+        assertFalse(calculator.isOperationSupported(opStr));
+    }
+    
     @Test
-    void testLargeNumbers() {
-        Calculator calc = new Calculator();
-        assertEquals(1000, calc.calculate(500, 500, "add"));
-        assertEquals(10000, calc.calculate(100, 100, "mul"));
+    void testCalculateInvalidOperationString() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.calculate(10, 5, "invalid");
+        });
+        assertTrue(exception.getMessage().contains("Invalid operation string"));
+    }
+    
+    @Test
+    void testGetOperationsReturnsEnumMap() {
+        Map<Calculator.Operation, ?> operations = calculator.getOperations();
+        assertNotNull(operations);
+        assertTrue(operations instanceof java.util.EnumMap);
+        assertEquals(6, operations.size());
+        assertTrue(operations.containsKey(Calculator.Operation.ADD));
+        assertTrue(operations.containsKey(Calculator.Operation.DIVIDE));
+    }
+    
+    @Test
+    void testPowerWithNegativeExponentThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculator.calculate(2, -1, Calculator.Operation.POWER);
+        });
+        assertEquals("Exponent must be non-negative", exception.getMessage());
+    }
+    
+    @Test
+    void testPowerOptimizationForPowerOfTwo() {
+        assertEquals(8, calculator.calculate(2, 3, Calculator.Operation.POWER));
+        assertEquals(16, calculator.calculate(2, 4, Calculator.Operation.POWER));
+        assertEquals(32, calculator.calculate(2, 5, Calculator.Operation.POWER));
+        assertEquals(1, calculator.calculate(2, 0, Calculator.Operation.POWER));
+    }
+    
+    @Test
+    void testModulusWithZeroReturnsZero() {
+        assertEquals(0, calculator.calculate(10, 0, Calculator.Operation.MODULUS));
+        assertEquals(0, calculator.calculate(0, 0, Calculator.Operation.MODULUS));
+    }
+    
+    @Test
+    void testCalculateWithNullOperationString() {
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            calculator.calculate(10, 5, (String) null);
+        });
+        // Null will cause NPE in toUpperCase()
     }
 }
