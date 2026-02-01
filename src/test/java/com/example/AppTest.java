@@ -7,11 +7,7 @@ class AppTest {
 
     @Test
     void testMainDoesNotThrowException() {
-        // Test that main method executes without crashing
-        // This is a basic smoke test
         assertDoesNotThrow(() -> {
-            // We can't easily test database operations
-            // but we can verify the app structure
             Calculator calc = new Calculator();
             assertNotNull(calc);
             
@@ -25,5 +21,18 @@ class AppTest {
         Calculator calc = new Calculator();
         int result = calc.calculate(10, 5, "add-again");
         assertEquals(15, result);
+    }
+
+    @Test
+    void testAppComponents() {
+        // Test that App can create its components
+        Calculator calc = new Calculator();
+        UserService service = new UserService();
+        
+        assertNotNull(calc);
+        assertNotNull(service);
+        
+        // Test calculator works as expected
+        assertEquals(15, calc.calculate(10, 5, "add-again"));
     }
 }
