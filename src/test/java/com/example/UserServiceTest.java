@@ -19,8 +19,8 @@ class UserServiceTest {
     }
 
     @Test
-    void testUserServiceHasPasswordField() {
-        // Just verify the object is properly constructed
-        assertNotNull(userService);
+    void testUserServiceInstantiation() {
+        UserService service = new UserService();
+        assertNotNull(service);
     }
 }

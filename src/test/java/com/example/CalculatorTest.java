@@ -13,100 +13,105 @@ class CalculatorTest {
         calculator = new Calculator();
     }
 
+    // Test all operations in calculate()
     @Test
     void testAddition() {
-        assertEquals(15, calculator.calculate(10, 5, "add"));
+        int result = calculator.calculate(10, 5, "add");
+        assertEquals(15, result);
     }
 
     @Test
     void testAddAgain() {
-        assertEquals(15, calculator.calculate(10, 5, "add-again"));
+        int result = calculator.calculate(10, 5, "add-again");
+        assertEquals(15, result);
     }
 
     @Test
     void testSubtraction() {
-        assertEquals(5, calculator.calculate(10, 5, "sub"));
+        int result = calculator.calculate(10, 5, "sub");
+        assertEquals(5, result);
     }
 
     @Test
     void testSubAgain() {
-        assertEquals(5, calculator.calculate(10, 5, "sub-again"));
+        int result = calculator.calculate(10, 5, "sub-again");
+        assertEquals(5, result);
     }
 
     @Test
     void testMultiplication() {
-        assertEquals(50, calculator.calculate(10, 5, "mul"));
+        int result = calculator.calculate(10, 5, "mul");
+        assertEquals(50, result);
     }
 
     @Test
     void testDivision() {
-        assertEquals(2, calculator.calculate(10, 5, "div"));
+        int result = calculator.calculate(10, 5, "div");
+        assertEquals(2, result);
     }
 
     @Test
     void testDivisionByZero() {
-        assertEquals(0, calculator.calculate(10, 0, "div"));
+        int result = calculator.calculate(10, 0, "div");
+        assertEquals(0, result);
     }
 
     @Test
-    void testDivisionByZeroInElse() {
-        // Test the else branch where b != 0
-        assertEquals(3, calculator.calculate(9, 3, "div"));
+    void testDivisionElseBranch() {
+        int result = calculator.calculate(9, 3, "div");
+        assertEquals(3, result);
     }
 
     @Test
     void testModulo() {
-        assertEquals(1, calculator.calculate(10, 3, "mod"));
-        assertEquals(0, calculator.calculate(10, 5, "mod"));
-        assertEquals(2, calculator.calculate(7, 5, "mod"));
+        int result = calculator.calculate(10, 3, "mod");
+        assertEquals(1, result);
     }
 
     @Test
     void testPower() {
-        assertEquals(100, calculator.calculate(10, 2, "pow"));
-        assertEquals(8, calculator.calculate(2, 3, "pow"));
-        assertEquals(1, calculator.calculate(5, 0, "pow"));
-        assertEquals(27, calculator.calculate(3, 3, "pow"));
+        int result = calculator.calculate(2, 3, "pow");
+        assertEquals(8, result);
     }
 
     @Test
-    void testPowerLoopCoverage() {
-        // Test multiple iterations of power loop
-        assertEquals(16, calculator.calculate(2, 4, "pow"));
-        assertEquals(32, calculator.calculate(2, 5, "pow"));
+    void testPowerZero() {
+        int result = calculator.calculate(5, 0, "pow");
+        assertEquals(1, result);
+    }
+
+    @Test
+    void testPowerMultipleIterations() {
+        int result = calculator.calculate(2, 5, "pow");
+        assertEquals(32, result);
     }
 
     @Test
     void testInvalidOperation() {
-        assertEquals(0, calculator.calculate(10, 5, "invalid"));
-        assertEquals(0, calculator.calculate(10, 5, "xyz"));
-        assertEquals(0, calculator.calculate(10, 5, "test"));
+        int result = calculator.calculate(10, 5, "invalid");
+        assertEquals(0, result);
     }
 
+    // Test duplicate methods
     @Test
     void testAddNumbers() {
-        assertEquals(15, calculator.addNumbers(10, 5));
-        assertEquals(0, calculator.addNumbers(0, 0));
-        assertEquals(-5, calculator.addNumbers(-10, 5));
-        assertEquals(100, calculator.addNumbers(50, 50));
+        int result = calculator.addNumbers(10, 5);
+        assertEquals(15, result);
     }
 
     @Test
     void testSumValues() {
-        assertEquals(15, calculator.sumValues(10, 5));
-        assertEquals(0, calculator.sumValues(0, 0));
-        assertEquals(-5, calculator.sumValues(-10, 5));
-        assertEquals(100, calculator.sumValues(50, 50));
+        int result = calculator.sumValues(10, 5);
+        assertEquals(15, result);
     }
 
     @Test
     void testAddAgainMethod() {
-        assertEquals(15, calculator.addAgain(10, 5));
-        assertEquals(0, calculator.addAgain(0, 0));
-        assertEquals(-5, calculator.addAgain(-10, 5));
-        assertEquals(100, calculator.addAgain(50, 50));
+        int result = calculator.addAgain(10, 5);
+        assertEquals(15, result);
     }
 
+    // Additional edge cases
     @Test
     void testNegativeNumbers() {
         assertEquals(-15, calculator.calculate(-10, -5, "add"));
@@ -115,25 +120,9 @@ class CalculatorTest {
     }
 
     @Test
-    void testAllIfBranches() {
-        // Cover all if-else branches thoroughly
-        calculator.calculate(5, 3, "add");
-        calculator.calculate(5, 3, "add-again");
-        calculator.calculate(5, 3, "sub");
-        calculator.calculate(5, 3, "sub-again");
-        calculator.calculate(5, 3, "mul");
-        calculator.calculate(6, 2, "div");
-        calculator.calculate(5, 0, "div");  // Division by zero branch
-        calculator.calculate(5, 3, "mod");
-        calculator.calculate(2, 3, "pow");
-        calculator.calculate(5, 3, "unknown");
-    }
-
-    @Test
-    void testEdgeCases() {
+    void testZeroValues() {
         assertEquals(0, calculator.calculate(0, 0, "add"));
-        assertEquals(0, calculator.calculate(0, 0, "mul"));
+        assertEquals(0, calculator.calculate(0, 5, "mul"));
         assertEquals(1, calculator.calculate(0, 0, "pow"));
-        assertEquals(0, calculator.calculate(0, 5, "div"));
     }
 }

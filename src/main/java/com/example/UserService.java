@@ -13,13 +13,12 @@ public class UserService {
     private final String password;
 
     public UserService() {
-        // In real app, this would come from environment variable
         this.password = System.getenv("DB_PASSWORD") != null ? 
                         System.getenv("DB_PASSWORD") : "password123";
     }
 
     public void findUser(String username) throws SQLException {
-        String query = "SELECT * FROM users WHERE name = ?";
+        String query = "SELECT name FROM users WHERE name = ?";  // ✅ Fixed: Use specific column
         
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost/db", "root", password);
