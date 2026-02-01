@@ -1,3 +1,4 @@
+java
 package com.example;
 
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,11 @@ class CalculatorTest {
     
     @Test
     void testCalculateInvalidOperationEnum() {
+        // Create invalid operation (not in enum)
+        Calculator.Operation invalidOp = Calculator.Operation.valueOf("ADD"); // Valid
+        // We need to test with null or create a test-only invalid operation
+        
+        // Test with string instead
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.calculate(10, 5, "INVALID_OPERATION");
         });
@@ -119,6 +125,6 @@ class CalculatorTest {
         Exception exception = assertThrows(NullPointerException.class, () -> {
             calculator.calculate(10, 5, (String) null);
         });
-        assertNotNull(exception);
+        // Null will cause NPE in toUpperCase()
     }
 }
