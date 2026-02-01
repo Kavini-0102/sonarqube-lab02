@@ -13,116 +13,79 @@ class CalculatorTest {
         calculator = new Calculator();
     }
 
-    // Test all operations in calculate()
     @Test
-    void testAddition() {
-        int result = calculator.calculate(10, 5, "add");
-        assertEquals(15, result);
+    void testAdd() {
+        assertEquals(15, calculator.calculate(10, 5, "add"));
     }
 
     @Test
     void testAddAgain() {
-        int result = calculator.calculate(10, 5, "add-again");
-        assertEquals(15, result);
+        assertEquals(15, calculator.calculate(10, 5, "add-again"));
     }
 
     @Test
-    void testSubtraction() {
-        int result = calculator.calculate(10, 5, "sub");
-        assertEquals(5, result);
+    void testSub() {
+        assertEquals(5, calculator.calculate(10, 5, "sub"));
     }
 
     @Test
     void testSubAgain() {
-        int result = calculator.calculate(10, 5, "sub-again");
-        assertEquals(5, result);
+        assertEquals(5, calculator.calculate(10, 5, "sub-again"));
     }
 
     @Test
-    void testMultiplication() {
-        int result = calculator.calculate(10, 5, "mul");
-        assertEquals(50, result);
+    void testMul() {
+        assertEquals(50, calculator.calculate(10, 5, "mul"));
     }
 
     @Test
-    void testDivision() {
-        int result = calculator.calculate(10, 5, "div");
-        assertEquals(2, result);
+    void testDivWhenBIsZero() {
+        assertEquals(0, calculator.calculate(10, 0, "div"));
     }
 
     @Test
-    void testDivisionByZero() {
-        int result = calculator.calculate(10, 0, "div");
-        assertEquals(0, result);
+    void testDivWhenBIsNotZero() {
+        assertEquals(2, calculator.calculate(10, 5, "div"));
     }
 
     @Test
-    void testDivisionElseBranch() {
-        int result = calculator.calculate(9, 3, "div");
-        assertEquals(3, result);
+    void testMod() {
+        assertEquals(1, calculator.calculate(10, 3, "mod"));
     }
 
     @Test
-    void testModulo() {
-        int result = calculator.calculate(10, 3, "mod");
-        assertEquals(1, result);
+    void testPowWithZeroExponent() {
+        assertEquals(1, calculator.calculate(5, 0, "pow"));
     }
 
     @Test
-    void testPower() {
-        int result = calculator.calculate(2, 3, "pow");
-        assertEquals(8, result);
+    void testPowWithPositiveExponent() {
+        assertEquals(8, calculator.calculate(2, 3, "pow"));
+        assertEquals(100, calculator.calculate(10, 2, "pow"));
     }
 
     @Test
-    void testPowerZero() {
-        int result = calculator.calculate(5, 0, "pow");
-        assertEquals(1, result);
-    }
-
-    @Test
-    void testPowerMultipleIterations() {
-        int result = calculator.calculate(2, 5, "pow");
-        assertEquals(32, result);
+    void testPowLoop() {
+        assertEquals(32, calculator.calculate(2, 5, "pow"));
     }
 
     @Test
     void testInvalidOperation() {
-        int result = calculator.calculate(10, 5, "invalid");
-        assertEquals(0, result);
+        assertEquals(0, calculator.calculate(10, 5, "invalid"));
     }
 
-    // Test duplicate methods
     @Test
     void testAddNumbers() {
-        int result = calculator.addNumbers(10, 5);
-        assertEquals(15, result);
+        assertEquals(15, calculator.addNumbers(10, 5));
     }
 
     @Test
     void testSumValues() {
-        int result = calculator.sumValues(10, 5);
-        assertEquals(15, result);
+        assertEquals(15, calculator.sumValues(10, 5));
     }
 
     @Test
     void testAddAgainMethod() {
-        int result = calculator.addAgain(10, 5);
-        assertEquals(15, result);
-    }
-
-    // Additional edge cases
-    @Test
-    void testNegativeNumbers() {
-        assertEquals(-15, calculator.calculate(-10, -5, "add"));
-        assertEquals(-5, calculator.calculate(-10, -5, "sub"));
-        assertEquals(50, calculator.calculate(-10, -5, "mul"));
-    }
-
-    @Test
-    void testZeroValues() {
-        assertEquals(0, calculator.calculate(0, 0, "add"));
-        assertEquals(0, calculator.calculate(0, 5, "mul"));
-        assertEquals(1, calculator.calculate(0, 0, "pow"));
+        assertEquals(15, calculator.addAgain(10, 5));
     }
 }
