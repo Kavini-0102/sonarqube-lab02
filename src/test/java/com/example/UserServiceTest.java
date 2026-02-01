@@ -1,26 +1,21 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
-    private UserService userService;
-
-    @BeforeEach
-    void setUp() {
-        userService = new UserService();
-    }
-
     @Test
     void testUserServiceCreation() {
-        assertNotNull(userService);
+        UserService service = new UserService();
+        assertNotNull(service);
     }
 
     @Test
-    void testUserServiceInstantiation() {
-        UserService service = new UserService();
-        assertNotNull(service);
+    void testMultipleInstances() {
+        UserService service1 = new UserService();
+        UserService service2 = new UserService();
+        assertNotNull(service1);
+        assertNotNull(service2);
     }
 }
