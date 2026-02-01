@@ -48,17 +48,15 @@ class CalculatorTest {
     
     @Test
     void testCalculateDivisionByZeroThrowsException() {
-        Exception exception = assertThrows(ArithmeticException.class, () -> {
-            calculator.calculate(10, 0, Calculator.Operation.DIVIDE);
-        });
+        Exception exception = assertThrows(ArithmeticException.class, 
+            () -> calculator.calculate(10, 0, Calculator.Operation.DIVIDE));
         assertEquals("Division by zero is not allowed", exception.getMessage());
     }
     
     @Test
     void testCalculateInvalidOperationEnum() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.calculate(10, 5, "INVALID_OPERATION");
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, 
+            () -> calculator.calculate(10, 5, "INVALID_OPERATION"));
         assertTrue(exception.getMessage().contains("Invalid operation string"));
     }
     
@@ -76,9 +74,8 @@ class CalculatorTest {
     
     @Test
     void testCalculateInvalidOperationString() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.calculate(10, 5, "invalid");
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, 
+            () -> calculator.calculate(10, 5, "invalid"));
         assertTrue(exception.getMessage().contains("Invalid operation string"));
     }
     
@@ -94,9 +91,8 @@ class CalculatorTest {
     
     @Test
     void testPowerWithNegativeExponentThrowsException() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.calculate(2, -1, Calculator.Operation.POWER);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, 
+            () -> calculator.calculate(2, -1, Calculator.Operation.POWER));
         assertEquals("Exponent must be non-negative", exception.getMessage());
     }
     
@@ -116,9 +112,8 @@ class CalculatorTest {
     
     @Test
     void testCalculateWithNullOperationString() {
-        Exception exception = assertThrows(NullPointerException.class, () -> {
-            calculator.calculate(10, 5, (String) null);
-        });
+        Exception exception = assertThrows(NullPointerException.class, 
+            () -> calculator.calculate(10, 5, (String) null));
         assertNotNull(exception);
     }
 }
