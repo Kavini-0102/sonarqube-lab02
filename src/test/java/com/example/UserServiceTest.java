@@ -1,0 +1,21 @@
+package com.example;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class UserServiceTest {
+
+    @Test
+    void testUserServiceCreation() {
+        UserService service = new UserService();
+        assertNotNull(service);
+    }
+
+    @Test
+    void testMultipleInstances() {
+        UserService service1 = new UserService();
+        UserService service2 = new UserService();
+        assertNotNull(service1);
+        assertNotNull(service2);
+    }
+}

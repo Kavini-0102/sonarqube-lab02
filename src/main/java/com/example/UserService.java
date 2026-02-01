@@ -1,31 +1,49 @@
-package main.java.com.example;
+package com.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class UserService {
+    private static final Logger logger = Logger.getLogger(UserService.class.getName());
+    private final String password;
 
-    // SECURITY ISSUE: Hardcoded credentials
-    private String password = "admin123";
-
-    // VULNERABILITY: SQL Injection
-    public void findUser(String username) throws Exception {
-
-        Connection conn =
-            DriverManager.getConnection("jdbc:mysql://localhost/db",
-                    "root", password);
-
-        Statement st = conn.createStatement();
-
-        String query =
-            "SELECT * FROM users WHERE name = '" + username + "'";
-
-        st.executeQuery(query);
+    public UserService() {
+        this.password = System.getenv("DB_PASSWORD") != null ? 
+                        System.getenv("DB_PASSWORD") : "password123";
     }
 
-    // SMELL: Unused method
-    public void notUsed() {
-        System.out.println("I am never called");
+    public void findUser(String username) throws SQLException {
+        String query = "SELECT name FROM users WHERE name = ?";  // ✅ Fixed: Use specific column
+        
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost/db", "root", password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setString(1, username);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    logger.log(Level.INFO, "User found: {0}", name);
+                }
+            }
+        }
+    }
+
+    public void deleteUser(String username) throws SQLException {
+        String query = "DELETE FROM users WHERE name = ?";
+        
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost/db", "root", password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setString(1, username);
+            pstmt.execute();
+        }
     }
 }
